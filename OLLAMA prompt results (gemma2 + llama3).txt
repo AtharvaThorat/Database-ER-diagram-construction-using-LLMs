@@ -1,0 +1,226 @@
+Llama3 result which I have used:
+
+erDiagram
+    STUDENT ||--o{ ENROLL : enrolls
+    PROFESSOR ||--o{ CLASSROOM : teaches
+    PROFESSOR ||--o{ DEPARTMENT : works_in
+    DEPARTMENT ||--o{ COURSE : offers
+    SCHOOL ||--o{ DEPARTMENT : contains
+    COURSE ||--o{ CLASSROOM : scheduled_in
+    ROOM ||--o{ CLASSROOM : hosts
+    BUILDING ||--o{ ROOM : has
+
+    STUDENT ||--o{ MEMBERSHIP : joins
+    GREEK_LIFE ||--o{ MEMBERSHIP : includes
+
+    STUDENT ||--o{ ATTENDS : attends
+    CAMPUS_EVENTS ||--o{ ATTENDS : involves
+
+    STUDENT ||--o{ HOUSING_ASSIGNMENT : lives_in
+    RESIDENTIAL_COLLEGE ||--o{ HOUSING_ASSIGNMENT : houses
+
+    STUDENT ||--o{ SERVICE_USAGE : uses
+    TROJAN_SERVICES ||--o{ SERVICE_USAGE : provides
+
+    STUDENT ||--o{ LIBRARY_ACCESS : accesses
+    DOHENY_LIBRARY ||--o{ LIBRARY_ACCESS : provides
+
+    STUDENT ||--o{ PARTICIPATES : participates
+    TROJAN_ATHLETICS ||--o{ PARTICIPATES : involves
+
+
+    STUDENT {
+      int STU_NUM PK
+      int DEPT_CODE FK
+      string STU_LNAME
+      string STU_FNAME
+      string STU_INITIAL
+      string STU_EMAIL
+      int PROF_NUM FK  "Advisor"
+      string TROJAN_ID
+      string USC_EMAIL
+    }
+
+    PROFESSOR {
+      int PROF_NUM PK
+      int DEPT_CODE FK
+      string PROF_SPECIALTY
+      string PROF_RANK
+      string PROF_LNAME
+      string PROF_FNAME
+      string PROF_INITIAL
+      string PROF_EMAIL
+    }
+
+    SCHOOL {
+      int SCHOOL_CODE PK
+      string SCHOOL_NAME
+    }
+
+    DEPARTMENT {
+      int DEPT_CODE PK
+      string DEPT_NAME
+      int SCHOOL_CODE FK
+      int PROF_NUM FK "Head of Department"
+    }
+
+    CLASSROOM {
+      int CLASS_CODE PK
+      string CLASS_SECTION
+      string CLASS_TIME
+      int CRS_CODE FK
+      int PROF_NUM FK
+      int ROOM_CODE FK
+    }
+
+    COURSE {
+      int CRS_CODE PK
+      int DEPT_CODE FK
+      string CRS_TITLE
+      string CRS_DESCRIPTION
+      int CRS_CREDIT
+    }
+
+    ENROLL {
+      date ENROLL_DATE
+      string ENROLL_GRADE
+      int CLASS_CODE FK
+      int STU_NUM FK
+    }
+
+    ROOM {
+      int ROOM_CODE PK
+      string ROOM_TYPE
+      int BLDG_CODE FK
+    }
+
+    BUILDING {
+      int BLDG_CODE PK
+      string BLDG_NAME
+      string BLDG_LOCATION
+    }
+
+    DOHENY_LIBRARY {
+      int LIBRARY_ID PK
+      string LIBRARY_NAME
+      string HOURS
+      string SPECIAL_COLLECTIONS
+    }
+
+    TROJAN_ATHLETICS {
+      int SPORT_ID PK
+      string SPORT_NAME
+      string SEASON
+      int COACH_ID
+    }
+
+    GREEK_LIFE {
+      int GREEK_ID PK
+      string GREEK_NAME
+      string CHAPTER_TYPE
+      int MEMBER_COUNT
+    }
+
+    CAMPUS_EVENTS {
+      int EVENT_ID PK
+      string EVENT_NAME
+      date EVENT_DATE
+      string VENUE
+      string EVENT_TYPE
+    }
+
+    RESIDENTIAL_COLLEGE {
+      int HOUSING_ID PK
+      string BUILDING_NAME
+      string ROOM_TYPE
+      int CAPACITY
+    }
+
+    TROJAN_SERVICES {
+      int SERVICE_ID PK
+      string SERVICE_NAME
+      string LOCATION
+      string HOURS
+    }
+
+    MEMBERSHIP {
+      int STU_NUM FK
+      int GREEK_ID FK
+      date JOIN_DATE
+    }
+
+    ATTENDS {
+      int STU_NUM FK
+      int EVENT_ID FK
+    }
+
+    HOUSING_ASSIGNMENT {
+      int STU_NUM FK
+      int HOUSING_ID FK
+      date MOVE_IN
+      date MOVE_OUT
+    }
+
+    SERVICE_USAGE {
+      int STU_NUM FK
+      int SERVICE_ID FK
+      date USE_DATE
+    }
+
+    LIBRARY_ACCESS {
+      int STU_NUM FK
+      int LIBRARY_ID FK
+      date ACCESS_DATE
+    }
+
+    PARTICIPATES {
+      int STU_NUM FK
+      int SPORT_ID FK
+      string ROLE
+    }
+
+
+Gemma2 result:
+
+erDiagram
+    STUDENT --(ENROLL)--> CLASSROOM
+    STUDENT --(PROFESSOR)--> PROFESSOR
+    STUDENT --(MEMBER)--> GREEK_LIFE
+    STUDENT --(ATTENDS)--> CAMPUS_EVENTS
+    STUDENT --(HOUSING_ASSIGNMENT)--> RESIDENTIAL_COLLEGE
+    STUDENT --(SERVICE_USAGE)--> TROJAN_SERVICES
+    STUDENT --(LIBRARY_ACCESS) --> DOHENY_LIBRARY
+    STUDENT --(PARTCIPATES)--> TROJAN_ATHLETICS
+
+
+    PROFESSOR --(WORKS_IN)--> DEPARTMENT
+    DEPARTMENT --(OFFERS)--> COURSE
+    SCHOOL --(CONTAINS)--> DEPARTMENT
+    COURSE --(SCHEDULED_IN)--> CLASSROOM
+    CLASSROOM --(HOSTS)--> ROOM
+    BUILDING --(HAS)--> ROOM
+
+    ENROLL --(STUDENT_NUMBER)--> STU_NUM, (DATE)--> ENROLL_DATE
+    ATTENDS --(STU_NUMBER) --> ATTENDS, (EVENT_ID) --> EVENT_ID 
+    SERVICE_USAGE --(STU_NUMBER) --> SERVICE_USAGE, (SERVICE_ID) --> SERVICE_ID
+    LIBRARY_ACCESS --(STU_NUMBER) --> LIBRARY_ACCESS, (LIBRARY_ID) --> LIBRARY_ID
+
+
+    GREEK_LIFE --(MEMBERSHIP)--> MEMBERSHIP 
+    CAMPUS_EVENTS --(ATTENDS)--> ATTENDS  
+    RESIDENTIAL_COLLEGE --(HOUSING_ASSIGNMENT) --> HOUSING_ASSIGNMENT 
+    TROJAN_SERVICES --(SERVICE_USAGE) --> SERVICE_USAGE 
+    DOHENY_LIBRARY --(LIBRARY_ACCESS) --> LIBRARY_ACCESS
+
+
+    Membership (STU_NUM, GREEK_ID, JOIN_DATE)
+    Attends (STU_NUM, EVENT_ID)
+    Housing_Assignment (STU_NUM, HOUSING_ID, MOVE_IN, MOVE_OUT)
+    Service_Usage (STU_NUM, SERVICE_ID, USE_DATE) 
+    Library_Access (STU_NUM, LIBRARY_ID, ACCESS_DATE)
+    Participation (STU_NUM, SPORT_ID, ROLE)
+
+
+
+
+
